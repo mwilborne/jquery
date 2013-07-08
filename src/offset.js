@@ -1,3 +1,11 @@
+define([
+	"./core",
+	"./css",
+	"./selector!default"
+], function( jQuery ) {
+var core_strundefined = typeof undefined,
+	docElem = window.document.documentElement;
+
 jQuery.fn.offset = function( options ) {
 	if ( arguments.length ) {
 		return options === undefined ?
@@ -165,3 +173,4 @@ jQuery.each( {scrollLeft: "pageXOffset", scrollTop: "pageYOffset"}, function( me
 function getWindow( elem ) {
 	return jQuery.isWindow( elem ) ? elem : elem.nodeType === 9 && elem.defaultView;
 }
+});

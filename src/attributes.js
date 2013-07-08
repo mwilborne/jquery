@@ -1,4 +1,12 @@
-var nodeHook, boolHook,
+define([
+	"./core",
+	"./shared-var/data_priv",
+	"./support",
+	"./selector!default"
+], function( jQuery, data_priv ) {
+var core_rnotwhite = /\S+/g,
+	core_strundefined = typeof undefined,
+	nodeHook, boolHook,
 	rclass = /[\t\r\n\f]/g,
 	rreturn = /\r/g,
 	rfocusable = /^(?:input|select|textarea|button)$/i;
@@ -499,4 +507,7 @@ jQuery.each([ "radio", "checkbox" ], function() {
 			return elem.getAttribute("value") === null ? "on" : elem.value;
 		};
 	}
+});
+
+return jQuery;
 });

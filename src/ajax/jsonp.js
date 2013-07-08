@@ -1,4 +1,10 @@
-var oldCallbacks = [],
+define([
+	"../core",
+	"../shared-var/ajax_nonce",
+	"../ajax"
+], function( jQuery, ajax_nonce ) {
+var ajax_rquery = /\?/,
+	oldCallbacks = [],
 	rjsonp = /(=)\?(?=&|$)|\?\?/;
 
 // Default jsonp settings
@@ -77,4 +83,5 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 		// Delegate to script
 		return "script";
 	}
+});
 });

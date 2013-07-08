@@ -1,4 +1,16 @@
-var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi,
+define([
+	"./core",
+	"./shared-var/data_priv",
+	"./shared-var/data_user",
+	"./shared-var/Data",
+	"./selector!default",
+	"./traversing",
+	"./support",
+	"./event" // jQuery.event.special, jQuery.event.remove, jQuery.event.removeEvent, jQuery.event.add
+], function( jQuery, data_priv, data_user, Data ){
+var core_concat = Array.prototype.concat,
+	core_push = Array.prototype.push,
+	rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi,
 	rtagName = /<([\w:]+)/,
 	rhtml = /<|&#?\w+;/,
 	rnoInnerhtml = /<(?:script|style|link)/i,
@@ -465,6 +477,7 @@ jQuery.extend({
 		}
 	},
 
+	// TODO: Optional dependency on ajax
 	_evalUrl: function( url ) {
 		return jQuery.ajax({
 			url: url,
@@ -575,3 +588,4 @@ function fixInput( src, dest ) {
 		dest.defaultValue = src.defaultValue;
 	}
 }
+});

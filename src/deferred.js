@@ -1,3 +1,8 @@
+define([
+	"./core",
+	"./callbacks"
+], function( jQuery ) {
+var core_slice = Array.prototype.slice;
 jQuery.extend({
 
 	Deferred: function( func ) {
@@ -138,4 +143,5 @@ jQuery.extend({
 
 		return deferred.promise();
 	}
+});
 });

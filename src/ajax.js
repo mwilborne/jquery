@@ -1,4 +1,9 @@
+define([
+	"./core",
+	"./deferred"
+], function( jQuery ) {
 var
+	core_rnotwhite = /\S+/g,
 	// Document location
 	ajaxLocParts,
 	ajaxLocation,
@@ -853,3 +858,6 @@ function ajaxConvert( s, response, jqXHR, isSuccess ) {
 
 	return { state: "success", data: response };
 }
+
+return { nonce: ajax_nonce };
+});

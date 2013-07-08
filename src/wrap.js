@@ -1,3 +1,6 @@
+define([
+	"./core"
+], function( jQuery ) {
 jQuery.fn.extend({
 	wrapAll: function( html ) {
 		var wrap;
@@ -66,4 +69,5 @@ jQuery.fn.extend({
 			}
 		}).end();
 	}
+});
 });

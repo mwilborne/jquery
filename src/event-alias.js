@@ -1,3 +1,7 @@
+define([
+	"./core",
+	"./event"
+], function( jQuery ) {
 jQuery.each( ("blur focus focusin focusout load resize scroll unload click dblclick " +
 	"mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " +
 	"change select submit keydown keypress keyup error contextmenu").split(" "), function( i, name ) {
@@ -29,4 +33,5 @@ jQuery.fn.extend({
 		// ( namespace ) or ( selector, types [, fn] )
 		return arguments.length === 1 ? this.off( selector, "**" ) : this.off( types, selector || "**", fn );
 	}
+});
 });

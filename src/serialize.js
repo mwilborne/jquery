@@ -1,4 +1,9 @@
-var r20 = /%20/g,
+define([
+	"./core",
+	"./attributes"
+], function( jQuery ) {
+var manipulation_rcheckableType = /^(?:checkbox|radio)$/i,
+	r20 = /%20/g,
 	rbracket = /\[\]$/,
 	rCRLF = /\r?\n/g,
 	rsubmitterTypes = /^(?:submit|button|image|reset|file)$/i,
@@ -48,6 +53,7 @@ jQuery.param = function( a, traditional ) {
 
 	// Set traditional to true for jQuery <= 1.3.2 behavior.
 	if ( traditional === undefined ) {
+		// TODO: Optional dependency on ajax
 		traditional = jQuery.ajaxSettings && jQuery.ajaxSettings.traditional;
 	}
 
@@ -97,3 +103,4 @@ function buildParams( prefix, obj, traditional, add ) {
 		add( prefix, obj );
 	}
 }
+});

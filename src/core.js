@@ -1,3 +1,4 @@
+define([], function() {
 var
 	// A central reference to the root jQuery(document)
 	rootjQuery,
@@ -78,6 +79,9 @@ jQuery.fn = jQuery.prototype = {
 	jquery: core_version,
 
 	constructor: jQuery,
+
+	// TODO: Circular reference core -> (parseHTML) -> manipulate -> core
+	// TODO: Circular reference core -> (find) -> selector -> core
 	init: function( selector, context, rootjQuery ) {
 		var match, elem;
 
@@ -452,6 +456,7 @@ jQuery.extend({
 	// data: string of html
 	// context (optional): If specified, the fragment will be created in this context, defaults to document
 	// keepScripts (optional): If true, will include scripts passed in the html string
+	// TODO: Circular reference core -> manipulation -> core
 	parseHTML: function( data, context, keepScripts ) {
 		if ( !data || typeof data !== "string" ) {
 			return null;
@@ -799,7 +804,41 @@ jQuery.extend({
 jQuery.ready.promise = function( obj ) {
 	if ( !readyList ) {
 
-		readyList = jQuery.Deferred();
+		// TODO: Optional dependency on deferred
+		if ( jQuery.Deferred ) {
+			readyList = jQuery.Deferred();
+		} else {
+			readyList = {
+				queue: [],
+				promise: function( obj ) {
+					if ( obj ) {
+						throw Error("Deferred promise wrapping not supported; load jQuery.Deferred");
+					}
+
+					return {
+						done: function( fn ) {
+							readyList.queue.push(fn);
+						}
+					};
+				},
+				resolveWith: function( thisObj, args ) {
+					var queue = readyList.queue;
+
+					// redirect the queue object before running it in case someone puts a ready callback in their
+					// ready callback
+					readyList.queue = {
+						push: function( fn ) {
+							fn.apply(thisObj, args);
+						}
+					};
+
+					var fn;
+					while ( (fn = queue.pop()) ) {
+						fn.apply(thisObj, args);
+					}
+				}
+			};
+		}
 
 		// Catch cases where $(document).ready() is called after the browser event has already occurred.
 		// we once tried to use readyState "interactive" here, but it caused issues like the one
@@ -844,3 +883,5 @@ function isArraylike( obj ) {
 
 // All jQuery objects should point back to these
 rootjQuery = jQuery(document);
+return jQuery;
+});

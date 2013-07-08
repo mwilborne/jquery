@@ -1,3 +1,8 @@
+define([
+	"./core",
+	"./shared-var/data_priv",
+	"./callbacks"
+], function( jQuery, data_priv ) {
 jQuery.extend({
 	queue: function( elem, type, data ) {
 		var queue;
@@ -99,6 +104,7 @@ jQuery.fn.extend({
 	// Based off of the plugin by Clint Helfers, with permission.
 	// http://blindsignals.com/index.php/2009/07/jquery-delay/
 	delay: function( time, type ) {
+		// TODO: Optional dependency on effects
 		time = jQuery.fx ? jQuery.fx.speeds[ time ] || time : time;
 		type = type || "fx";
 
@@ -142,4 +148,5 @@ jQuery.fn.extend({
 		resolve();
 		return defer.promise( obj );
 	}
+});
 });

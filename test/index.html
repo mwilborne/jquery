@@ -16,18 +16,6 @@
 	<script src="../bower_components/qunit/qunit/qunit.js"></script>
 	<script>
 		(function() {
-			var src = "../dist/jquery.min.js";
-
-			// Config parameter to use minified jQuery
-			QUnit.config.urlConfig.push({
-				id: "dev",
-				label: "Load unminified",
-				tooltip: "Load the development (unminified) jQuery file"
-			});
-			if ( QUnit.urlParams.dev ) {
-				src = "../dist/jquery.js";
-			}
-
 			// Config parameter to force basic code paths
 			QUnit.config.urlConfig.push({
 				id: "basic",
@@ -40,36 +28,45 @@
 				document.documentElement.compareDocumentPosition = null;
 			}
 
-			// Load jQuery
-			document.write( "<script id='jquery-js' src='" + src + "'><\x2Fscript>" );
+			QUnit.config.autostart = false;
+			require([ "../src/main" ], function ( jQuery ) {
+				window.jQuery = window.$ = jQuery;
+
+				var deps = [
+					"data/testrunner.js",
+					"unit/core.js",
+					"unit/callbacks.js",
+					"unit/deferred.js",
+					"unit/support.js",
+					"unit/data.js",
+					"unit/queue.js",
+					"unit/attributes.js",
+					"unit/event.js",
+					"unit/selector.js",
+					"unit/traversing.js",
+					"unit/manipulation.js",
+					"unit/wrap.js",
+					"unit/css.js",
+					"unit/serialize.js",
+					"unit/ajax.js",
+					"unit/effects.js",
+					"unit/offset.js",
+					"unit/dimensions.js"
+				];
+
+				(function loadDep() {
+					var dep = deps.shift();
+					if ( dep ) {
+						require([ dep ], loadDep);
+					} else {
+						// Subproject tests must be last because they replace our test fixture
+						testSubproject( "Sizzle", "../bower_components/sizzle/test/", /^unit\/.*\.js$/ );
+
+						QUnit.start();
+					}
+				})();
+			});
 		})();
-	</script>
-	<script src="data/testrunner.js"></script>
-
-	<script src="unit/core.js"></script>
-	<script src="unit/callbacks.js"></script>
-	<script src="unit/deferred.js"></script>
-	<script src="unit/support.js"></script>
-	<script src="unit/data.js"></script>
-	<script src="unit/queue.js"></script>
-	<script src="unit/attributes.js"></script>
-	<script src="unit/event.js"></script>
-	<script src="unit/selector.js"></script>
-	<script src="unit/traversing.js"></script>
-	<script src="unit/manipulation.js"></script>
-	<script src="unit/wrap.js"></script>
-	<script src="unit/css.js"></script>
-	<script src="unit/serialize.js"></script>
-	<script src="unit/ajax.js"></script>
-	<script src="unit/effects.js"></script>
-	<script src="unit/offset.js"></script>
-	<script src="unit/dimensions.js"></script>
-	<script src="unit/deprecated.js"></script>
-	<script src="unit/exports.js"></script>
-
-	<!-- Subproject tests must be last because they replace our test fixture -->
-	<script>
-		testSubproject( "Sizzle", "../bower_components/sizzle/test/", /^unit\/.*\.js$/ );
 	</script>
 
 	<script>

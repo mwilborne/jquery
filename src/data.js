@@ -1,3 +1,4 @@
+define([ "./core" ], function( jQuery ) {
 /*
 	Implementation Summary
 
@@ -9,7 +10,8 @@
 	5. Avoid exposing implementation details on user objects (eg. expando properties)
 	6. Provide a clear path for implementation upgrade to WeakMap in 2014
 */
-var data_user, data_priv,
+var core_rnotwhite = /\S+/g,
+	data_user, data_priv,
 	rbrace = /(?:\{[\s\S]*\}|\[[\s\S]*\])$/,
 	rmultiDash = /([A-Z])/g;
 
@@ -354,3 +356,6 @@ function dataAttr( elem, key, data ) {
 	}
 	return data;
 }
+
+return { Data: Data, priv: data_priv, user: data_user };
+});

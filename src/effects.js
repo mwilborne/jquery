@@ -1,4 +1,21 @@
-var fxNow, timerId,
+define([
+	"./core",
+	"./shared-var/data_priv",
+	"./queue",
+	"./css",
+	"./deferred",
+	"./traversing"
+], function( jQuery, data_priv ) {
+function css_isHidden( elem, el ) {
+	// css_isHidden might be called from jQuery#filter function;
+	// in that case, element will be second argument
+	elem = el || elem;
+	return jQuery.css( elem, "display" ) === "none" || !jQuery.contains( elem.ownerDocument, elem );
+}
+
+var core_pnum = /[+-]?(?:\d*\.|)\d+(?:[eE][+-]?\d+|)/.source,
+	css_cssExpand = [ "Top", "Right", "Bottom", "Left" ],
+	fxNow, timerId,
 	rfxtypes = /^(?:toggle|show|hide)$/,
 	rfxnum = new RegExp( "^(?:([+-])=|)(" + core_pnum + ")([a-z%]*)$", "i" ),
 	rrun = /queueHooks$/,
@@ -253,7 +270,7 @@ function defaultPrefilter( elem, props, opts ) {
 		anim = this,
 		orig = {},
 		style = elem.style,
-		hidden = elem.nodeType && isHidden( elem ),
+		hidden = elem.nodeType && css_isHidden( elem ),
 		dataShow = data_priv.get( elem, "fxshow" );
 
 	// handle queue: false promises
@@ -477,7 +494,7 @@ jQuery.fn.extend({
 	fadeTo: function( speed, to, easing, callback ) {
 
 		// show any hidden elements after setting opacity to 0
-		return this.filter( isHidden ).css( "opacity", 0 ).show()
+		return this.filter( css_isHidden ).css( "opacity", 0 ).show()
 
 			// animate to the value specified
 			.end().animate({ opacity: to }, speed, easing, callback );
@@ -603,7 +620,7 @@ function genFx( type, includeWidth ) {
 	// if we don't include width, step value is 2 to skip over Left and Right
 	includeWidth = includeWidth? 1 : 0;
 	for( ; i < 4 ; i += 2 - includeWidth ) {
-		which = cssExpand[ i ];
+		which = css_cssExpand[ i ];
 		attrs[ "margin" + which ] = attrs[ "padding" + which ] = type;
 	}
 
@@ -721,6 +738,7 @@ jQuery.fx.speeds = {
 // Back Compat <1.8 extension point
 jQuery.fx.step = {};
 
+// TODO: Optional dependency on selector
 if ( jQuery.expr && jQuery.expr.filters ) {
 	jQuery.expr.filters.animated = function( elem ) {
 		return jQuery.grep(jQuery.timers, function( fn ) {
@@ -728,3 +746,4 @@ if ( jQuery.expr && jQuery.expr.filters ) {
 		}).length;
 	};
 }
+});

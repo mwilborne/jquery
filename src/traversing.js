@@ -1,4 +1,9 @@
-var isSimple = /^.[^:#\[\.,]*$/,
+define([
+	"./core",
+	"./selector!default"
+], function( jQuery ) {
+var core_indexOf = Array.prototype.indexOf,
+	isSimple = /^.[^:#\[\.,]*$/,
 	rparentsprev = /^(?:parents|prev(?:Until|All))/,
 	rneedsContext = jQuery.expr.match.needsContext,
 	// methods guaranteed to produce a unique set when starting from a unique set
@@ -281,3 +286,4 @@ function winnow( elements, qualifier, not ) {
 		return ( core_indexOf.call( qualifier, elem ) >= 0 ) !== not;
 	});
 }
+});

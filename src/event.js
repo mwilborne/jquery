@@ -1,4 +1,15 @@
-var rkeyEvent = /^key/,
+define([
+	"./core",
+	"./shared-var/data_priv",
+	"./data", // acceptData
+	"./selector!default",
+	"./support"
+], function( jQuery, data_priv ) {
+var core_strundefined = typeof undefined,
+	core_rnotwhite = /\S+/g,
+	core_hasOwn = Object.prototype.hasOwnProperty,
+	core_slice = Array.prototype.slice,
+	rkeyEvent = /^key/,
 	rmouseEvent = /^(?:mouse|contextmenu)|click/,
 	rfocusMorph = /^(?:focusinfocus|focusoutblur)$/,
 	rtypenamespace = /^([^.]*)(?:\.(.+)|)$/;
@@ -826,4 +837,5 @@ jQuery.fn.extend({
 			return jQuery.event.trigger( type, data, elem, true );
 		}
 	}
+});
 });

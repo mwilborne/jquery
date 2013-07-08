@@ -1,5 +1,7 @@
+define([ "./core" ], function( jQuery ) {
 // String to Object options format cache
-var optionsCache = {};
+var core_rnotwhite = /\S+/g,
+	optionsCache = {};
 
 // Convert String-formatted options into Object-formatted ones and store in cache
 function createOptions( options ) {
@@ -195,3 +197,4 @@ jQuery.Callbacks = function( options ) {
 
 	return self;
 };
+});
