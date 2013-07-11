@@ -1,6 +1,6 @@
 define([
 	"./core",
-	"./selector!default"
+	"./selector"
 ], function( jQuery ) {
 var core_indexOf = Array.prototype.indexOf,
 	isSimple = /^.[^:#\[\.,]*$/,

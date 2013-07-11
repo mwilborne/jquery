@@ -1,7 +1,7 @@
 define([
 	"./core",
 	"./css",
-	"./selector!default"
+	"./selector"
 ], function( jQuery ) {
 var core_strundefined = typeof undefined,
 	docElem = window.document.documentElement;

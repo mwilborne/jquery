@@ -1,7 +1,7 @@
 define([
 	"./core",
 	"./shared-var/data_priv",
-	"./selector!default",
+	"./selector",
 	"./support"
 ], function( jQuery, data_priv ) {
 var core_pnum = /[+-]?(?:\d*\.|)\d+(?:[eE][+-]?\d+|)/.source,
@@ -149,7 +149,7 @@ jQuery.fn.extend({
 		}
 
 		return this.each(function() {
-			if ( bool ? state : css_isHidden( this ) ) {
+			if ( css_isHidden( this ) ) {
 				jQuery( this ).show();
 			} else {
 				jQuery( this ).hide();

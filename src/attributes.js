@@ -2,7 +2,7 @@ define([
 	"./core",
 	"./shared-var/data_priv",
 	"./support",
-	"./selector!default"
+	"./selector"
 ], function( jQuery, data_priv ) {
 var core_rnotwhite = /\S+/g,
 	core_strundefined = typeof undefined,

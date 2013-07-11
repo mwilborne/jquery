@@ -2,7 +2,7 @@ define([
 	"./core",
 	"./shared-var/data_priv",
 	"./data", // acceptData
-	"./selector!default",
+	"./selector",
 	"./support"
 ], function( jQuery, data_priv ) {
 var core_strundefined = typeof undefined,

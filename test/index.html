@@ -14,6 +14,7 @@
 	<script src="data/testinit.js"></script>
 
 	<script src="../bower_components/qunit/qunit/qunit.js"></script>
+	<script src="../bower_components/requirejs/require.js"></script>
 	<script>
 		(function() {
 			// Config parameter to force basic code paths
@@ -30,8 +31,6 @@
 
 			QUnit.config.autostart = false;
 			require([ "../src/main" ], function ( jQuery ) {
-				window.jQuery = window.$ = jQuery;
-
 				var deps = [
 					"data/testrunner.js",
 					"unit/core.js",

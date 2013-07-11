@@ -1,7 +1,6 @@
 define([
-	"./core",
-	"./sizzle/sizzle"
-], function ( jQuery, Sizzle ) {
+	"./core"
+], function ( jQuery ) {
 jQuery.find = Sizzle;
 jQuery.expr = Sizzle.selectors;
 jQuery.expr[":"] = jQuery.expr.pseudos;

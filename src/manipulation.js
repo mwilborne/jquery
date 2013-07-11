@@ -3,7 +3,7 @@ define([
 	"./shared-var/data_priv",
 	"./shared-var/data_user",
 	"./shared-var/Data",
-	"./selector!default",
+	"./selector",
 	"./traversing",
 	"./support",
 	"./event" // jQuery.event.special, jQuery.event.remove, jQuery.event.removeEvent, jQuery.event.add
