@@ -5,7 +5,7 @@ define([
 /**
  * Determines whether an object can have data
  */
-return jQuery.acceptsData = function( owner ) {
+return jQuery.acceptData = function( owner ) {
 	// Accepts only:
 	//  - Node
 	//    - Node.ELEMENT_NODE
