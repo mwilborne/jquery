@@ -1,4 +1,6 @@
 define([
+	"./var/strundefined",
+	"./var/arr",
 	"./var/slice",
 	"./var/concat",
 	"./var/push",
@@ -8,14 +10,12 @@ define([
 	"./var/toString",
 	"./var/hasOwn",
 	"./var/trim"
-], function( slice, concat, push, indexOf, class2type, toString, hasOwn, trim ) {
+], function( strundefined, arr, slice, concat, push, indexOf,
+	class2type, toString, hasOwn, trim ) {
 
 var
 	// A central reference to the root jQuery(document)
 	rootjQuery,
-
-	// The deferred used on DOM ready
-	readyList,
 
 	// Use the correct document accordingly with window argument (sandbox)
 	document = window.document,
@@ -49,13 +49,6 @@ var
 	// Used by jQuery.camelCase as callback to replace()
 	fcamelCase = function( all, letter ) {
 		return letter.toUpperCase();
-	},
-
-	// The ready event handler and self cleanup method
-	completed = function() {
-		document.removeEventListener( "DOMContentLoaded", completed, false );
-		window.removeEventListener( "load", completed, false );
-		jQuery.ready();
 	};
 
 jQuery.fn = jQuery.prototype = {
@@ -64,8 +57,6 @@ jQuery.fn = jQuery.prototype = {
 
 	constructor: jQuery,
 
-	// TODO: Circular reference core -> (parseHTML) -> manipulate -> core
-	// TODO: Circular reference core -> (find) -> selector -> core
 	init: function( selector, context, rootjQuery ) {
 		var match, elem;
 
@@ -150,7 +141,10 @@ jQuery.fn = jQuery.prototype = {
 		// HANDLE: $(function)
 		// Shortcut for document ready
 		} else if ( jQuery.isFunction( selector ) ) {
-			return rootjQuery.ready( selector );
+			return typeof rootjQuery.ready !== "undefined" ?
+				rootjQuery.ready( selector ) :
+				// Execute immediately if ready is not present
+				selector();
 		}
 
 		if ( selector.selector !== undefined ) {
@@ -205,13 +199,6 @@ jQuery.fn = jQuery.prototype = {
 		return jQuery.each( this, callback, args );
 	},
 
-	ready: function( fn ) {
-		// Add the callback
-		jQuery.ready.promise().done( fn );
-
-		return this;
-	},
-
 	slice: function() {
 		return this.pushStack( slice.apply( this, arguments ) );
 	},
@@ -243,8 +230,8 @@ jQuery.fn = jQuery.prototype = {
 	// For internal use only.
 	// Behaves like an Array's method, not like a jQuery method.
 	push: push,
-	sort: [].sort,
-	splice: [].splice
+	sort: arr.sort,
+	splice: arr.splice
 };
 
 // Give the init function the jQuery prototype for later instantiation
@@ -328,47 +315,6 @@ jQuery.extend({
 		}
 
 		return jQuery;
-	},
-
-	// Is the DOM ready to be used? Set to true once it occurs.
-	isReady: false,
-
-	// A counter to track how many items to wait for before
-	// the ready event fires. See #6781
-	readyWait: 1,
-
-	// Hold (or release) the ready event
-	holdReady: function( hold ) {
-		if ( hold ) {
-			jQuery.readyWait++;
-		} else {
-			jQuery.ready( true );
-		}
-	},
-
-	// Handle when the DOM is ready
-	ready: function( wait ) {
-
-		// Abort if there are pending holds or we're already ready
-		if ( wait === true ? --jQuery.readyWait : jQuery.isReady ) {
-			return;
-		}
-
-		// Remember that the DOM is ready
-		jQuery.isReady = true;
-
-		// If a normal DOM Ready event fired, decrement, and wait if need be
-		if ( wait !== true && --jQuery.readyWait > 0 ) {
-			return;
-		}
-
-		// If there are functions bound, to execute
-		readyList.resolveWith( document, [ jQuery ] );
-
-		// Trigger any bound ready events
-		if ( jQuery.fn.trigger ) {
-			jQuery( document ).trigger("ready").off("ready");
-		}
 	},
 
 	// See test/unit/core.js for details concerning isFunction.
@@ -785,64 +731,6 @@ jQuery.extend({
 	}
 });
 
-jQuery.ready.promise = function( obj ) {
-	if ( !readyList ) {
-
-		// TODO: Optional dependency on deferred
-		if ( jQuery.Deferred ) {
-			readyList = jQuery.Deferred();
-		} else {
-			readyList = {
-				queue: [],
-				promise: function( obj ) {
-					if ( obj ) {
-						throw Error("Deferred promise wrapping not supported; load jQuery.Deferred");
-					}
-
-					return {
-						done: function( fn ) {
-							readyList.queue.push(fn);
-						}
-					};
-				},
-				resolveWith: function( thisObj, args ) {
-					var queue = readyList.queue;
-
-					// redirect the queue object before running it in case someone puts a ready callback in their
-					// ready callback
-					readyList.queue = {
-						push: function( fn ) {
-							fn.apply(thisObj, args);
-						}
-					};
-
-					var fn;
-					while ( (fn = queue.pop()) ) {
-						fn.apply(thisObj, args);
-					}
-				}
-			};
-		}
-
-		// Catch cases where $(document).ready() is called after the browser event has already occurred.
-		// we once tried to use readyState "interactive" here, but it caused issues like the one
-		// discovered by ChrisS here: http://bugs.jquery.com/ticket/12282#comment:15
-		if ( document.readyState === "complete" ) {
-			// Handle it asynchronously to allow scripts the opportunity to delay ready
-			setTimeout( jQuery.ready );
-
-		} else {
-
-			// Use the handy event callback
-			document.addEventListener( "DOMContentLoaded", completed, false );
-
-			// A fallback to window.onload, that will always work
-			window.addEventListener( "load", completed, false );
-		}
-	}
-	return readyList.promise( obj );
-};
-
 // Populate the class2type map
 jQuery.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function(i, name) {
 	class2type[ "[object " + name + "]" ] = name.toLowerCase();
@@ -866,7 +754,7 @@ function isArraylike( obj ) {
 }
 
 // All jQuery objects should point back to these
-rootjQuery = jQuery(document);
+rootjQuery = jQuery( document );
 
 return jQuery;
 });
