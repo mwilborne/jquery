@@ -18,4 +18,5 @@ jQuery.fn.delay = function( time, type ) {
 	});
 };
 
+return jQuery.fn.delay;
 });

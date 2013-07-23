@@ -1,10 +1,11 @@
 define([
 	"./core",
 	"./var/pnum",
-	"./css/cssExpand",
-	"./css/isHidden",
-	"./css/defaultDisplay",
-	"./data/data_priv",
+	"./css/var/cssExpand",
+	"./css/var/isHidden",
+	"./css/var/defaultDisplay",
+	"./data/var/data_priv",
+	"./selector", // contains
 	"./support"
 ], function( jQuery, pnum, cssExpand, isHidden, defaultDisplay, data_priv ) {
 var curCSS,

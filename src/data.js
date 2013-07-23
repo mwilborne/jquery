@@ -1,8 +1,8 @@
 define([
 	"./core",
 	"./var/rnotwhite",
-	"./data/data_priv",
-	"./data/data_user"
+	"./data/var/data_priv",
+	"./data/var/data_user"
 ], function( jQuery, rnotwhite, data_priv, data_user ) {
 
 /*

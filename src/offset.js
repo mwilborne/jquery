@@ -1,7 +1,8 @@
 define([
 	"./core",
 	"./var/strundefined",
-	"./css"
+	"./css",
+	"./selector"
 ], function( jQuery, strundefined ) {
 
 var docElem = window.document.documentElement;

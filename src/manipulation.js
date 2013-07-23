@@ -2,14 +2,13 @@ define([
 	"./core",
 	"./var/concat",
 	"./var/push",
-	"./manipulation/rcheckableType",
-	"./data/data_priv",
-	"./data/data_user",
+	"./manipulation/var/rcheckableType",
+	"./data/var/data_priv",
+	"./data/var/data_user",
 	"./data/accepts",
 	"./selector",
 	"./traversing",
 	"./support",
-	// jQuery.event.special, jQuery.event.remove, jQuery.event.removeEvent, jQuery.event.add
 	"./event"
 ], function( jQuery, concat, push, rcheckableType, data_priv, data_user ){
 

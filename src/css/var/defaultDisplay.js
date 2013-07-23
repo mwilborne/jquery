@@ -1,13 +1,16 @@
 define([
-	"../core",
-	"../css",
-	"../manipulation" // appendTo
+	"../../core",
+	"../../manipulation" // appendTo
 ], function( jQuery ) {
 
 var iframe,
 	elemdisplay = { BODY: "block" };
 
-// Called ONLY from within defaultDisplay
+/**
+ * Retrieve the actual display of a element
+ * @param {String} name nodeName of the element
+ * @param {Object} doc Document object
+ */
 function actualDisplay( name, doc ) {
 	var elem = jQuery( doc.createElement( name ) ).appendTo( doc.body ),
 		display = jQuery.css( elem[0], "display" );
@@ -17,8 +20,9 @@ function actualDisplay( name, doc ) {
 
 /**
  * Try to determine the default display value of an element
+ * @param {String} nodeName
  */
-return function defaultDisplay( nodeName ) {
+return function( nodeName ) {
 	var doc = document,
 		display = elemdisplay[ nodeName ];
 

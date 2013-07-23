@@ -1,9 +1,10 @@
 define([
 	"../core",
-	"./nonce",
-	"./rquery",
+	"./var/nonce",
+	"./var/rquery",
 	"../ajax"
 ], function( jQuery, nonce, rquery ) {
+
 var oldCallbacks = [],
 	rjsonp = /(=)\?(?=&|$)|\?\?/;
 
@@ -84,4 +85,5 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 		return "script";
 	}
 });
+
 });

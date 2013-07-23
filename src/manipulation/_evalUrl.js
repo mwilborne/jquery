@@ -1,7 +1,7 @@
 define([
 	"../ajax"
 ], function( jQuery ) {
-	return jQuery._evalUrl = function( url ) {
+	jQuery._evalUrl = function( url ) {
 		return jQuery.ajax({
 			url: url,
 			type: "GET",
@@ -11,4 +11,6 @@ define([
 			"throws": true
 		});
 	};
+
+	return jQuery._evalUrl;
 });

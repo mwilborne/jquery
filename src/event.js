@@ -4,7 +4,7 @@ define([
 	"./var/rnotwhite",
 	"./var/hasOwn",
 	"./var/slice",
-	"./data/data_priv",
+	"./data/var/data_priv",
 	"./data/accepts",
 	"./selector",
 	"./support"

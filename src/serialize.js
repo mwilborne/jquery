@@ -1,6 +1,6 @@
 define([
 	"./core",
-	"./manipulation/rcheckableType",
+	"./manipulation/var/rcheckableType",
 	"./traversing", // filter
 	"./attributes/prop"
 ], function( jQuery, rcheckableType ) {

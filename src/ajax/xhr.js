@@ -3,6 +3,7 @@ define([
 	"../ajax",
 	"../support"
 ], function( jQuery ) {
+
 jQuery.ajaxSettings.xhr = function() {
 	try {
 		return new XMLHttpRequest();
@@ -114,4 +115,5 @@ jQuery.ajaxTransport(function( options ) {
 		};
 	}
 });
+
 });

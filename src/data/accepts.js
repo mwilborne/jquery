@@ -5,7 +5,7 @@ define([
 /**
  * Determines whether an object can have data
  */
-return jQuery.acceptData = function( owner ) {
+jQuery.acceptData = function( owner ) {
 	// Accepts only:
 	//  - Node
 	//    - Node.ELEMENT_NODE
@@ -15,4 +15,6 @@ return jQuery.acceptData = function( owner ) {
 	return owner.nodeType ?
 		owner.nodeType === 1 || owner.nodeType === 9 : true;
 };
+
+return jQuery.acceptData;
 });

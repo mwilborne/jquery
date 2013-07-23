@@ -1,6 +1,6 @@
 define([
 	"./core",
-	"./data/data_priv",
+	"./data/var/data_priv",
 	"./deferred",
 	"./callbacks"
 ], function( jQuery, data_priv ) {
