@@ -7,11 +7,7 @@ define([
 	"./var/class2type",
 	"./var/toString",
 	"./var/hasOwn",
-	"./var/trim",
-
-	// Required for core
-	"./selector",
-	"./traversing"
+	"./var/trim"
 ], function( slice, concat, push, indexOf, class2type, toString, hasOwn, trim ) {
 
 var

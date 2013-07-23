@@ -1,4 +1,4 @@
-require([
+define([
 	"./attributes/attr",
 	"./attributes/prop",
 	"./attributes/classes",

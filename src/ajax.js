@@ -1,7 +1,7 @@
 define([
 	"./core",
 	"./var/rnotwhite",
-	"./ajax/noonce",
+	"./ajax/nonce",
 	"./ajax/rquery",
 	"./deferred"
 ], function( jQuery, rnotwhite, nonce, rquery ) {

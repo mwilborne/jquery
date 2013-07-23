@@ -1,6 +1,6 @@
 define([
-	"./core",
-	"./support"
+	"../core",
+	"../support"
 ], function( jQuery ) {
 
 var rreturn = /\r/g;
