@@ -1,20 +1,22 @@
 define([
 	"./core",
-	"./shared-var/data_priv",
-	"./shared-var/data_user",
-	"./shared-var/Data",
+	"./var/concat",
+	"./var/push",
+	"./manipulation/rcheckableType",
+	"./data/data_priv",
+	"./data/data_user",
+	"./data/accepts",
 	"./selector",
 	"./traversing",
 	"./support",
-	"./event" // jQuery.event.special, jQuery.event.remove, jQuery.event.removeEvent, jQuery.event.add
-], function( jQuery, data_priv, data_user, Data ){
-var core_concat = Array.prototype.concat,
-	core_push = Array.prototype.push,
-	rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi,
+	// jQuery.event.special, jQuery.event.remove, jQuery.event.removeEvent, jQuery.event.add
+	"./event"
+], function( jQuery, concat, push, rcheckableType, data_priv, data_user ){
+
+var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi,
 	rtagName = /<([\w:]+)/,
 	rhtml = /<|&#?\w+;/,
 	rnoInnerhtml = /<(?:script|style|link)/i,
-	manipulation_rcheckableType = /^(?:checkbox|radio)$/i,
 	// checked="checked" or checked
 	rchecked = /checked\s*(?:[^=]|=\s*.checked.)/i,
 	rscriptType = /^$|\/(?:java|ecma)script/i,
@@ -84,8 +86,7 @@ jQuery.fn.extend({
 		});
 	},
 
-	// keepData is for internal use only--do not document
-	remove: function( selector, keepData ) {
+	remove: function( selector, keepData /* Internal Use Only */ ) {
 		var elem,
 			elems = selector ? jQuery.filter( selector, this ) : this,
 			i = 0;
@@ -207,7 +208,7 @@ jQuery.fn.extend({
 	domManip: function( args, callback, allowIntersection ) {
 
 		// Flatten any nested arrays
-		args = core_concat.apply( [], args );
+		args = concat.apply( [], args );
 
 		var fragment, first, scripts, hasScripts, node, doc,
 			i = 0,
@@ -251,7 +252,7 @@ jQuery.fn.extend({
 						// Keep references to cloned scripts for later restoration
 						if ( hasScripts ) {
 							// Support: QtWebKit
-							// jQuery.merge because core_push.apply(_, arraylike) throws
+							// jQuery.merge because push.apply(_, arraylike) throws
 							jQuery.merge( scripts, getAll( node, "script" ) );
 						}
 					}
@@ -272,8 +273,10 @@ jQuery.fn.extend({
 							!data_priv.access( node, "globalEval" ) && jQuery.contains( doc, node ) ) {
 
 							if ( node.src ) {
-								// Hope ajax is available...
-								jQuery._evalUrl( node.src );
+								// Optional AJAX dependency, but won't run scripts if not present
+								if ( jQuery._evalUrl ) {
+									jQuery._evalUrl( node.src );
+								}
 							} else {
 								jQuery.globalEval( node.textContent.replace( rcleanScript, "" ) );
 							}
@@ -306,8 +309,8 @@ jQuery.each({
 			jQuery( insert[ i ] )[ original ]( elems );
 
 			// Support: QtWebKit
-			// .get() because core_push.apply(_, arraylike) throws
-			core_push.apply( ret, elems.get() );
+			// .get() because push.apply(_, arraylike) throws
+			push.apply( ret, elems.get() );
 		}
 
 		return this.pushStack( ret );
@@ -372,7 +375,7 @@ jQuery.extend({
 				// Add nodes directly
 				if ( jQuery.type( elem ) === "object" ) {
 					// Support: QtWebKit
-					// jQuery.merge because core_push.apply(_, arraylike) throws
+					// jQuery.merge because push.apply(_, arraylike) throws
 					jQuery.merge( nodes, elem.nodeType ? [ elem ] : elem );
 
 				// Convert non-html into a text node
@@ -395,7 +398,7 @@ jQuery.extend({
 					}
 
 					// Support: QtWebKit
-					// jQuery.merge because core_push.apply(_, arraylike) throws
+					// jQuery.merge because push.apply(_, arraylike) throws
 					jQuery.merge( nodes, tmp.childNodes );
 
 					// Remember the top-level container
@@ -450,7 +453,7 @@ jQuery.extend({
 			i = 0;
 
 		for ( ; (elem = elems[ i ]) !== undefined; i++ ) {
-			if ( Data.accepts( elem ) ) {
+			if ( jQuery.acceptData( elem ) ) {
 				key = elem[ data_priv.expando ];
 
 				if ( key && (data = data_priv.cache[ key ]) ) {
@@ -475,18 +478,6 @@ jQuery.extend({
 			// Discard any remaining `user` data
 			delete data_user.cache[ elem[ data_user.expando ] ];
 		}
-	},
-
-	// TODO: Optional dependency on ajax
-	_evalUrl: function( url ) {
-		return jQuery.ajax({
-			url: url,
-			type: "GET",
-			dataType: "script",
-			async: false,
-			global: false,
-			"throws": true
-		});
 	}
 });
 
@@ -580,7 +571,7 @@ function fixInput( src, dest ) {
 	var nodeName = dest.nodeName.toLowerCase();
 
 	// Fails to persist the checked state of a cloned checkbox or radio button.
-	if ( nodeName === "input" && manipulation_rcheckableType.test( src.type ) ) {
+	if ( nodeName === "input" && rcheckableType.test( src.type ) ) {
 		dest.checked = src.checked;
 
 	// Fails to return the selected option to the default selected state when cloning options

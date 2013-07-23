@@ -10,8 +10,10 @@ define([
 	"./event",
 	"./traversing",
 	"./manipulation",
+	"./manipulation/_evalUrl",
 	"./wrap",
 	"./css",
+	"./css/hidden-visible-selectors",
 	"./serialize",
 	"./event-alias",
 	"./ajax",
@@ -19,6 +21,7 @@ define([
 	"./ajax/jsonp",
 	"./ajax/xhr",
 	"./effects",
+	"./effects/animated-selector",
 	"./offset",
 	"./dimensions",
 	"./deprecated"

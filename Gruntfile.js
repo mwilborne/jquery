@@ -47,7 +47,14 @@ module.exports = function( grunt ) {
 				src: [
 					"src/intro.js",
 					"src/core.js",
-					{ flag: "sizzle", src: "src/selector-sizzle.js", alt: "src/selector-native.js" },
+					{
+						flag: "sizzle",
+						src: "src/selector-sizzle.js",
+						alt: "src/selector-native.js",
+						// TODO: remove modules that depend on Sizzle when Sizzle is extracted (print warning)
+						// For now, they are listed here
+						dependencies: "src/effects/animated-selector.js"
+					},
 					"src/callbacks.js",
 					"src/deferred.js",
 					"src/support.js",

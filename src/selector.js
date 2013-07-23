@@ -1,3 +1,1 @@
-define([ "./selector-sizzle" ], function( selector ) {
-	return selector;
-});
+require([ "./selector-sizzle" ]);

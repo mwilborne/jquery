@@ -1,6 +1,7 @@
 define([
 	"./core",
 	"./shared-var/data_priv",
+	"./deferred",
 	"./callbacks"
 ], function( jQuery, data_priv ) {
 jQuery.extend({

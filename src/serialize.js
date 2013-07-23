@@ -1,9 +1,11 @@
 define([
 	"./core",
-	"./attributes"
-], function( jQuery ) {
-var manipulation_rcheckableType = /^(?:checkbox|radio)$/i,
-	r20 = /%20/g,
+	"./manipulation/rcheckableType",
+	"./traversing", // filter
+	"./attributes/prop"
+], function( jQuery, rcheckableType ) {
+
+var r20 = /%20/g,
 	rbracket = /\[\]$/,
 	rCRLF = /\r?\n/g,
 	rsubmitterTypes = /^(?:submit|button|image|reset|file)$/i,
@@ -24,7 +26,7 @@ jQuery.fn.extend({
 			// Use .is(":disabled") so that fieldset[disabled] works
 			return this.name && !jQuery( this ).is( ":disabled" ) &&
 				rsubmittable.test( this.nodeName ) && !rsubmitterTypes.test( type ) &&
-				( this.checked || !manipulation_rcheckableType.test( type ) );
+				( this.checked || !rcheckableType.test( type ) );
 		})
 		.map(function( i, elem ){
 			var val = jQuery( this ).val();
@@ -40,8 +42,8 @@ jQuery.fn.extend({
 	}
 });
 
-//Serialize an array of form elements or a set of
-//key/values into a query string
+// Serialize an array of form elements or a set of
+// key/values into a query string
 jQuery.param = function( a, traditional ) {
 	var prefix,
 		s = [],
@@ -53,7 +55,6 @@ jQuery.param = function( a, traditional ) {
 
 	// Set traditional to true for jQuery <= 1.3.2 behavior.
 	if ( traditional === undefined ) {
-		// TODO: Optional dependency on ajax
 		traditional = jQuery.ajaxSettings && jQuery.ajaxSettings.traditional;
 	}
 

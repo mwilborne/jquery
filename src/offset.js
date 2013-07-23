@@ -1,10 +1,10 @@
 define([
 	"./core",
-	"./css",
-	"./selector"
-], function( jQuery ) {
-var core_strundefined = typeof undefined,
-	docElem = window.document.documentElement;
+	"./var/strundefined",
+	"./css"
+], function( jQuery, strundefined ) {
+
+var docElem = window.document.documentElement;
 
 jQuery.fn.offset = function( options ) {
 	if ( arguments.length ) {
@@ -144,6 +144,12 @@ jQuery.fn.extend({
 	}
 });
 
+/**
+ * Gets a window from an element
+ */
+function getWindow( elem ) {
+	return jQuery.isWindow( elem ) ? elem : elem.nodeType === 9 && elem.defaultView;
+}
 
 // Create scrollLeft and scrollTop methods
 jQuery.each( {scrollLeft: "pageXOffset", scrollTop: "pageYOffset"}, function( method, prop ) {
@@ -170,7 +176,4 @@ jQuery.each( {scrollLeft: "pageXOffset", scrollTop: "pageYOffset"}, function( me
 	};
 });
 
-function getWindow( elem ) {
-	return jQuery.isWindow( elem ) ? elem : elem.nodeType === 9 && elem.defaultView;
-}
 });

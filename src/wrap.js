@@ -1,5 +1,6 @@
 define([
-	"./core"
+	"./core",
+	"./traversing" // parent, contents
 ], function( jQuery ) {
 jQuery.fn.extend({
 	wrapAll: function( html ) {

@@ -1,4 +1,7 @@
-define([ "./core" ], function( jQuery ) {
+define([
+	"./core"
+], function( jQuery ) {
+
 /*
  * Optional (non-Sizzle) selector module for custom builds.
  *
@@ -164,4 +167,5 @@ jQuery.extend( jQuery.find, {
 		return elem.getAttribute( name );
 	}
 });
+
 });
